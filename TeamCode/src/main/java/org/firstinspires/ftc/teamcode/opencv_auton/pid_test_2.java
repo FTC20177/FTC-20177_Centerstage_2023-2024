@@ -107,9 +107,7 @@ public class pid_test_2 extends LinearOpMode {
 
         while (opModeIsActive()) {
             //telemetry.update();
-            telemetry.update();
-            left(35,.25);
-            terminateOpModeNow();
+            //terminateOpModeNow();
         }
     }
 
