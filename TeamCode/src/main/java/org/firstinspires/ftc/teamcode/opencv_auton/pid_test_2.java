@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
-//mport org.firstinspires.ftc.teamcode.Presets;
+//import org.firstinspires.ftc.teamcode.Presets;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
