@@ -116,10 +116,10 @@ public class pid_test_2 extends LinearOpMode {
 
             void forward(double distance, double power ){
 
-                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(50/23)));
-                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(50/23)));
-                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(50/23)));
-                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(50/23)));
+                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
+                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
+                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
+                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
                 frontleftMotor.setPower(power);
                 frontrightMotor.setPower(power);
                 backleftMotor.setPower(power);
@@ -132,10 +132,10 @@ public class pid_test_2 extends LinearOpMode {
 
             void backwards(double distance, double power ){
 
-                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(50/23)));
-                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(50/23)));
-                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(50/23)));
-                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(50/23)));
+                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
+                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
+                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
+                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
                 frontleftMotor.setPower(power);
                 frontrightMotor.setPower(power);
                 backleftMotor.setPower(power);
@@ -147,10 +147,10 @@ public class pid_test_2 extends LinearOpMode {
             }
             void left(double distance, double power ){
 
-                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(50/23))));
-                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(50/23))));
-                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(50/23))));
-                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(50/23))));
+                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
+                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
+                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
+                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
                 frontleftMotor.setPower(power);
                 frontrightMotor.setPower(power);
                 backleftMotor.setPower(power);
@@ -163,10 +163,10 @@ public class pid_test_2 extends LinearOpMode {
 
             void right(double distance, double power ){
 
-                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(50/23))));
-                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(50/23))));
-                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(50/23))));
-                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(50/23))));
+                frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
+                backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
+                frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
+                backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
                 frontleftMotor.setPower(power);
                 frontrightMotor.setPower(power);
                 backleftMotor.setPower(power);
@@ -176,6 +176,7 @@ public class pid_test_2 extends LinearOpMode {
                     telemetry.update();
                 }
                 sleep(2000);
+
             }
             void updatedTelemetry(){
                 telemetry.addData("Status", "Running");
