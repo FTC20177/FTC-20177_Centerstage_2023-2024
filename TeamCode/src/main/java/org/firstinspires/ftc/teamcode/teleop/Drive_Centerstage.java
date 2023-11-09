@@ -84,9 +84,7 @@ public class Drive_Centerstage extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            telemetry.addData("Status", "Running");
-            //telemetry.update();
-            telemetry.update();
+            telemetry.addData("Status", "Running");telemetry.update();
 
             //setMotorPower
             double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
