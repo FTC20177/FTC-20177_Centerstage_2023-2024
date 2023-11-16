@@ -56,7 +56,7 @@ import org.firstinspires.ftc.teamcode.Presets;
  */
 @Autonomous
 
-public class Blue_Auto extends LinearOpMode {
+public class Auto extends LinearOpMode {
     private Blinker control_Hub;
     private DcMotor backleftMotor;
     private DcMotor backrightMotor;
@@ -105,7 +105,7 @@ public class Blue_Auto extends LinearOpMode {
                 forward(30, .5);
                 sleep(5000);
                 backwards(28, .5);
-                left(30, .7);
+                right(30, .7);
                 running = false;
                 terminateOpModeNow();
             }else{

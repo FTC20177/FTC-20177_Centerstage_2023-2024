@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 @TeleOp
 
-public class Drive_Centerstage extends LinearOpMode {
+public class Intake_Motor extends LinearOpMode {
     private Blinker control_Hub;
     private DcMotor backleftMotor;
     private DcMotor backrightMotor;
@@ -91,41 +91,7 @@ public class Drive_Centerstage extends LinearOpMode {
             telemetry.addData("Status", "Running");
             telemetry.update();
 
-            //setMotorPower
-            double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
-            double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-            //these had 'final' before them at one point "final double v1 = r * Math.cos(robotangle) + rightx"
-            //-Team 15036
-
-            double rightx = gamepad1.right_stick_x * .75;
-            double v1 = (r * Math.cos(robotAngle)) * 1 - rightx;
-            double v2 = (r * Math.sin(robotAngle)) * 1 + rightx;
-            double v3 = (r * Math.sin(robotAngle)) * 1 - rightx;
-            double v4 = (r * Math.cos(robotAngle)) * 1 + rightx;
-            frontleftMotor.setPower(v1);
-            frontrightMotor.setPower(-v2);
-            backleftMotor.setPower(v3);
-            backrightMotor.setPower(-v4);
-
-            if (gamepad1.a){
-                toggledown = true;
-        }else if (gamepad1.b) {
-            toggledown = false;
-        }else{
-
-            }
-
-            if (toggledown = true){
-                intake.setPower(intakePwr);
-                }else{
-                intake.setPower(0);
-        }
-            //intake.setPower(intakePwr);
-
-            tgtPower = this.gamepad1.left_trigger;
-            Lift_Motor_1.setPower(-tgtPower);
-            tgtPower = this.gamepad1.right_trigger;
-            Lift_Motor_1.setPower(tgtPower);
+            intake.setPower(intakePwr);
 
 
         }
