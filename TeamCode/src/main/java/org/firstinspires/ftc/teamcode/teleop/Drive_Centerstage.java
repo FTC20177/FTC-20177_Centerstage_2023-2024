@@ -59,6 +59,8 @@ public class Drive_Centerstage extends LinearOpMode {
     private DcMotor intake;
     private DcMotor Lift_Motor_1;
 
+    private CRServo Spin;
+
 
     double intakePwr = 1;
     double tgtPower = 0;
@@ -77,6 +79,7 @@ public class Drive_Centerstage extends LinearOpMode {
         frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
         intake = hardwareMap.get(DcMotor.class, "intake");
         Lift_Motor_1 = hardwareMap.get(DcMotor.class, "Lift_Motor_1");
+        Spin = hardwareMap.get(CRServo.class, "Spin");
 
 
         telemetry.addData("Status", "Initialized");
@@ -107,25 +110,15 @@ public class Drive_Centerstage extends LinearOpMode {
             backleftMotor.setPower(v3);
             backrightMotor.setPower(-v4);
 
-            if (gamepad1.a){
-                toggledown = true;
-        }else if (gamepad1.b) {
-            toggledown = false;
-        }else{
-
-            }
-
-            if (toggledown = true){
-                intake.setPower(intakePwr);
-                }else{
-                intake.setPower(0);
-        }
             //intake.setPower(intakePwr);
 
             tgtPower = this.gamepad1.left_trigger;
             Lift_Motor_1.setPower(-tgtPower);
             tgtPower = this.gamepad1.right_trigger;
             Lift_Motor_1.setPower(tgtPower);
+
+            Spin.setPower(1);
+
 
 
         }

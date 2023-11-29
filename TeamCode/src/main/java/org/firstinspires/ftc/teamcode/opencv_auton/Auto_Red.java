@@ -56,7 +56,7 @@ import org.firstinspires.ftc.teamcode.Presets;
  */
 @Autonomous
 
-public class Auto extends LinearOpMode {
+public class Auto_Red extends LinearOpMode {
     private Blinker control_Hub;
     private DcMotor backleftMotor;
     private DcMotor backrightMotor;
@@ -102,10 +102,10 @@ public class Auto extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.update();
             if (running == true) {
-                forward(30, .5);
+                forward(27, .3);
                 sleep(5000);
-                backwards(28, .5);
-                right(30, .7);
+                backwards(26, .5);
+                right(40, .7);
                 running = false;
                 terminateOpModeNow();
             }else{
@@ -119,10 +119,10 @@ public class Auto extends LinearOpMode {
 
     void forward(double distance, double power ){
 
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
         frontleftMotor.setPower(power);
         frontrightMotor.setPower(power);
         backleftMotor.setPower(power);
@@ -135,10 +135,11 @@ public class Auto extends LinearOpMode {
 
     void backwards(double distance, double power ){
 
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*103.6/7.42109*(47.5/23)));
+        //frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
+        frontleftMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
         frontleftMotor.setPower(power);
         frontrightMotor.setPower(power);
         backleftMotor.setPower(power);
@@ -150,10 +151,10 @@ public class Auto extends LinearOpMode {
     }
     void left(double distance, double power ){
 
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
         frontleftMotor.setPower(power);
         frontrightMotor.setPower(power);
         backleftMotor.setPower(power);
@@ -166,10 +167,10 @@ public class Auto extends LinearOpMode {
 
     void right(double distance, double power ){
 
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)((distance*(103.6/7.42109)*(47.5/23))));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)((distance*(103.6/7.42109)*(47.5/23))));
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
         frontleftMotor.setPower(power);
         frontrightMotor.setPower(power);
         backleftMotor.setPower(power);

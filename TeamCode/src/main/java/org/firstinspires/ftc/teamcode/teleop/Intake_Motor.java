@@ -59,6 +59,8 @@ public class Intake_Motor extends LinearOpMode {
     private DcMotor intake;
     private DcMotor Lift_Motor_1;
 
+    private CRServo Spin;
+
 
     double intakePwr = 1;
     double tgtPower = 0;
@@ -77,6 +79,7 @@ public class Intake_Motor extends LinearOpMode {
         frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
         intake = hardwareMap.get(DcMotor.class, "intake");
         Lift_Motor_1 = hardwareMap.get(DcMotor.class, "Lift_Motor_1");
+        Spin = hardwareMap.get(CRServo.class, "Spin");
 
 
         telemetry.addData("Status", "Initialized");
@@ -92,6 +95,8 @@ public class Intake_Motor extends LinearOpMode {
             telemetry.update();
 
             intake.setPower(intakePwr);
+
+            Spin.setPower(1);
 
 
         }
