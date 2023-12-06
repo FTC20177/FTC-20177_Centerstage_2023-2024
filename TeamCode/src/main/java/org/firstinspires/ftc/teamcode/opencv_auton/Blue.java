@@ -33,6 +33,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Blinker;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -50,6 +53,14 @@ import java.util.List;
  */
 @Autonomous(name = "Blue Cat Detection", group = "Concept")
 public class Blue extends LinearOpMode {
+    private Blinker control_Hub;
+    private DcMotor backleftMotor;
+    private DcMotor backrightMotor;
+    private DcMotor frontleftMotor;
+    private DcMotor frontrightMotor;
+
+    double tgtPower = 0;
+    double clawupdate;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -77,12 +88,37 @@ public class Blue extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        //hardware map
+        control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
+        backleftMotor = hardwareMap.get(DcMotor.class, "backleftMotor");
+        backrightMotor = hardwareMap.get(DcMotor.class, "backrightMotor");
+        frontleftMotor = hardwareMap.get(DcMotor.class, "frontleftMotor");
+        frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
+
+
         initTfod();
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
+
+        //enable and reset encoders
+        frontleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontleftMotor.setTargetPosition(0);
+        frontrightMotor.setTargetPosition(0);
+        backleftMotor.setTargetPosition(0);
+        backrightMotor.setTargetPosition(0);
+
+        frontleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         waitForStart();
 
         if (opModeIsActive()) {
@@ -191,8 +227,101 @@ public class Blue extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+
+            if (recognition.getLabel(). equals("Blue Cat")) {
+                if (x >= 100 && x <= 200) {
+
+                } else if (x >= 100 && x <= 200) {
+
+                } else if (x >= 100 && x <= 200) {
+
+                }else{
+
+                }
+
+            }else{
+
+            }
         }   // end for() loop
 
     }   // end method telemetryTfod()
 
-}   // end class
+    // end class
+
+    //encoder backend
+    void forward(double distance, double power ){
+
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
+        }
+        sleep(1000);
+    }
+
+    void backwards(double distance, double power ){
+
+        //frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
+        frontleftMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
+        }
+        sleep(1000);
+    }
+    void left(double distance, double power ){
+
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
+        }
+        sleep(2000);
+    }
+
+    void right(double distance, double power ){
+
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
+            telemetry.update();
+        }
+        sleep(2000);
+
+    }
+    void updatedTelemetry(){
+        telemetry.addData("Status", "Running");
+        telemetry.addData("FL", frontleftMotor.getCurrentPosition());
+        telemetry.addData("FR", frontrightMotor.getCurrentPosition());
+        telemetry.addData("BL", backleftMotor.getCurrentPosition());
+        telemetry.addData("BR", backrightMotor.getCurrentPosition());
+        telemetry.update();
+    }
+
+
+}
