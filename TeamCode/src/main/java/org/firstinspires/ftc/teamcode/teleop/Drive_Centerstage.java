@@ -21,6 +21,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Blinker;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Gyroscope;
@@ -57,7 +58,8 @@ public class Drive_Centerstage extends LinearOpMode {
     private DcMotor frontrightMotor;
 
     private DcMotor intake;
-    private DcMotor Lift_Motor_1;
+    private DcMotorEx Lift_Motor_1;
+    private DcMotorEx Lift_Motor_2;
 
     private CRServo Spin;
 
@@ -69,6 +71,8 @@ public class Drive_Centerstage extends LinearOpMode {
     boolean drivesystem = true;
 
 
+    double kPower = 0;
+
     @Override
     public void runOpMode() {
 
@@ -78,12 +82,14 @@ public class Drive_Centerstage extends LinearOpMode {
         frontleftMotor = hardwareMap.get(DcMotor.class, "frontleftMotor");
         frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        Lift_Motor_1 = hardwareMap.get(DcMotor.class, "Lift_Motor_1");
+        Lift_Motor_1 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_1");
+        Lift_Motor_2 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_2");
         Spin = hardwareMap.get(CRServo.class, "Spin");
 
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        boolean changed = false;
         // Wait for the game to start (driver presses PLAY)
         //claw.setPosition(0);
         waitForStart();
@@ -112,16 +118,36 @@ public class Drive_Centerstage extends LinearOpMode {
 
             //intake.setPower(intakePwr);
 
+            //tgtPower = this.gamepad1.left_trigger;
+            //Lift_Motor_1.setVelocity(-2400);
+            //Lift_Motor_2.setVelocity(2400);
+            //tgtPower = this.gamepad1.right_trigger;
+            //Lift_Motor_1.setVelocity(2400);
+            //Lift_Motor_2.setVelocity(-2400);
+
             tgtPower = this.gamepad1.left_trigger;
             Lift_Motor_1.setPower(-tgtPower);
+            Lift_Motor_2.setPower(tgtPower);
             tgtPower = this.gamepad1.right_trigger;
             Lift_Motor_1.setPower(tgtPower);
+            Lift_Motor_2.setPower(-tgtPower);
 
-            Spin.setPower(1);
 
+            if (gamepad1.x && !changed) {
+                changed = true;
+            } else if (gamepad1.y && changed) {
+                changed = false;
+                kPower = 0;
+                Spin.setPower(kPower);
+                intake.setPower(kPower);
+            } else if (!gamepad1.a && changed) {
+                kPower = 1;
+                Spin.setPower(kPower);
+                intake.setPower(kPower);
+            }
 
 
         }
-
     }
 }
+
