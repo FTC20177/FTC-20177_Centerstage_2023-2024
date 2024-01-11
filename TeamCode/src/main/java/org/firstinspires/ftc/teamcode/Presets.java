@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 public class Presets {
+
+    public static final int kStartingPosition = 0;
+    public static final int kEndPosition = 1360;
 }
-//stuff will be added later on most likely
+

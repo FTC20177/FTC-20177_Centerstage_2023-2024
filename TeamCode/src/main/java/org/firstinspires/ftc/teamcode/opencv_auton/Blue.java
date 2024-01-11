@@ -61,12 +61,13 @@ public class Blue extends LinearOpMode {
 
     double tgtPower = 0;
     double clawupdate;
+    double pos = 0;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20231204_135821.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_20231214_140622.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/model_20231204_135821.tflite";
@@ -85,71 +86,8 @@ public class Blue extends LinearOpMode {
      */
     private VisionPortal visionPortal;
 
-    @Override
-    public void runOpMode() {
-
-        //hardware map
-        control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
-        backleftMotor = hardwareMap.get(DcMotor.class, "backleftMotor");
-        backrightMotor = hardwareMap.get(DcMotor.class, "backrightMotor");
-        frontleftMotor = hardwareMap.get(DcMotor.class, "frontleftMotor");
-        frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
-
-
-        initTfod();
-
-        // Wait for the DS start button to be touched.
-        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch Play to start OpMode");
-        telemetry.update();
-
-        //enable and reset encoders
-        frontleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        frontleftMotor.setTargetPosition(0);
-        frontrightMotor.setTargetPosition(0);
-        backleftMotor.setTargetPosition(0);
-        backrightMotor.setTargetPosition(0);
-
-        frontleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        waitForStart();
-
-        if (opModeIsActive()) {
-            while (opModeIsActive()) {
-
-                telemetryTfod();
-
-                // Push telemetry to the Driver Station.
-                telemetry.update();
-
-                // Save CPU resources; can resume streaming when needed.
-                if (gamepad1.dpad_down) {
-                    visionPortal.stopStreaming();
-                } else if (gamepad1.dpad_up) {
-                    visionPortal.resumeStreaming();
-                }
-
-                // Share the CPU.
-                sleep(20);
-            }
-        }
-
-        // Save more CPU resources when camera is no longer needed.
-        visionPortal.close();
-
-    }   // end runOpMode()
-
-    /**
-     * Initialize the TensorFlow Object Detection processor.
-     */
     private void initTfod() {
+
 
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
@@ -203,125 +141,105 @@ public class Blue extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.70f);
+        tfod.setMinResultConfidence(0.85f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
 
+
     }   // end method initTfod()
 
-    /**
-     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
-     */
     private void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
+
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+            double y = (recognition.getTop() + recognition.getBottom()) / 2;
 
-            telemetry.addData(""," ");
+            telemetry.addData("", " ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if (recognition.getLabel(). equals("Blue Cat")) {
-                if (x >= 100 && x <= 200) {
-
-                } else if (x >= 100 && x <= 200) {
-
-                } else if (x >= 100 && x <= 200) {
-
-                }else{
-
-                }
-
-            }else{
+            if (recognition.getLeft() <= 500 && recognition.getLeft() >= 540 && recognition.getRight() <= 550 && recognition.getRight() >= 610) {
+                telemetry.addData("Position", "Right");
+                telemetry.addData("position left", recognition.getLeft());
+                telemetry.addData("position right", recognition.getRight());
+                pos = 3;
+            } else if (recognition.getLeft() <= 250 && recognition.getLeft() >= 280 && recognition.getRight() <= 330 && recognition.getRight() >= 360) {
+                telemetry.addData("Position", "Center");
+                telemetry.addData("position left", recognition.getLeft());
+                telemetry.addData("position right", recognition.getRight());
+                pos = 2;
+            } else if (recognition.getLeft() <= 10 && recognition.getLeft() >= 50 && recognition.getRight() <= 110 && recognition.getRight() >= 150) {
+                telemetry.addData("Position", "Left");
+                telemetry.addData("position left", recognition.getLeft());
+                telemetry.addData("position right", recognition.getRight());
+                pos = 1;
+            } else {
+                telemetry.addData("Position", "Unknown");
+                telemetry.addData("position left", recognition.getLeft());
+                telemetry.addData("position right", recognition.getRight());
 
             }
-        }   // end for() loop
+            telemetry.update();
 
-    }   // end method telemetryTfod()
-
-    // end class
-
-    //encoder backend
-    void forward(double distance, double power ){
-
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
-        frontleftMotor.setPower(power);
-        frontrightMotor.setPower(power);
-        backleftMotor.setPower(power);
-        backrightMotor.setPower(power);
-        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
-            updatedTelemetry();
         }
-        sleep(1000);
-    }
+    }   // end for() loop
 
-    void backwards(double distance, double power ){
+    @Override
+    public void runOpMode() {
 
-        //frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
-        frontleftMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
-        frontleftMotor.setPower(power);
-        frontrightMotor.setPower(power);
-        backleftMotor.setPower(power);
-        backrightMotor.setPower(power);
-        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
-            updatedTelemetry();
-        }
-        sleep(1000);
-    }
-    void left(double distance, double power ){
+        //hardware map
+        control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
+        backleftMotor = hardwareMap.get(DcMotor.class, "backleftMotor");
+        backrightMotor = hardwareMap.get(DcMotor.class, "backrightMotor");
+        frontleftMotor = hardwareMap.get(DcMotor.class, "frontleftMotor");
+        frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
 
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
-        frontleftMotor.setPower(power);
-        frontrightMotor.setPower(power);
-        backleftMotor.setPower(power);
-        backrightMotor.setPower(power);
-        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
-            updatedTelemetry();
-        }
-        sleep(2000);
-    }
 
-    void right(double distance, double power ){
+        initTfod();
 
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
-        frontleftMotor.setPower(power);
-        frontrightMotor.setPower(power);
-        backleftMotor.setPower(power);
-        backrightMotor.setPower(power);
-        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
-            updatedTelemetry();
+
+        while (!opModeIsActive() && !isStopRequested()) {
+            // Wait for the DS start button to be touched.
+            telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+            telemetry.addData(">", "Touch Play to start OpMode");
+            telemetryTfod();
             telemetry.update();
         }
-        sleep(2000);
+
+
+/**
+ * Initialize the TensorFlow Object Detection processor.
+ */
+
+
+/**
+ * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
+ */
+
+
+
+/**
+ * Initialize the TensorFlow Object Detection processor.
+ */
+
+            if (opModeIsActive()) {
+                while (opModeIsActive()) {
+
+                    telemetryTfod();
+
+                    // end method telemetryTfod()
+
+                    // end class
+
+                }
+            }
 
     }
-    void updatedTelemetry(){
-        telemetry.addData("Status", "Running");
-        telemetry.addData("FL", frontleftMotor.getCurrentPosition());
-        telemetry.addData("FR", frontrightMotor.getCurrentPosition());
-        telemetry.addData("BL", backleftMotor.getCurrentPosition());
-        telemetry.addData("BR", backrightMotor.getCurrentPosition());
-        telemetry.update();
-    }
-
-
 }

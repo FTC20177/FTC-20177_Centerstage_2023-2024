@@ -34,13 +34,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Blinker;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.firstinspires.ftc.teamcode.Presets;
 
 import java.util.List;
 
@@ -58,15 +61,22 @@ public class Red extends LinearOpMode {
     private DcMotor backrightMotor;
     private DcMotor frontleftMotor;
     private DcMotor frontrightMotor;
+    private DcMotor intake;
+    private DcMotor Lift_Motor_1;
+    private CRServo Spin;
+
 
     double tgtPower = 0;
     double clawupdate;
+    int kStartingPosition = Presets.kStartingPosition;
+    int kEndPosition = Presets.kEndPosition;
+
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20231204_155444.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_20231213_154156.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/model_20231204_135821.tflite";
@@ -94,30 +104,54 @@ public class Red extends LinearOpMode {
         backrightMotor = hardwareMap.get(DcMotor.class, "backrightMotor");
         frontleftMotor = hardwareMap.get(DcMotor.class, "frontleftMotor");
         frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        Lift_Motor_1 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_1");
+        Spin = hardwareMap.get(CRServo.class, "Spin");
 
-
-        initTfod();
-
-        // Wait for the DS start button to be touched.
-        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch Play to start OpMode");
-        telemetry.update();
-
-        //enable and reset encoders
         frontleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        Lift_Motor_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         frontleftMotor.setTargetPosition(0);
         frontrightMotor.setTargetPosition(0);
         backleftMotor.setTargetPosition(0);
         backrightMotor.setTargetPosition(0);
 
+        Lift_Motor_1.setTargetPosition(0);
+
         frontleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        Lift_Motor_1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        initTfod();
+
+        while (opModeIsActive()) {
+            // Wait for the DS start button to be touched.
+            List<Recognition> currentRecognitions = tfod.getRecognitions();
+            telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+            // Step through the list of recognitions and display info for each one.
+            for (Recognition recognition : currentRecognitions) {
+                double x = (recognition.getLeft() + recognition.getRight()) / 2;
+                double y = (recognition.getTop() + recognition.getBottom()) / 2;
+
+                telemetry.addData("", " ");
+                telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                telemetry.addData("- Position", "%.0f / %.0f", x, y);
+                telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            }
+            telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+            telemetry.addData(">", "Touch Play to start OpMode");
+            telemetry.update();
+        }
+
 
         waitForStart();
 
@@ -203,7 +237,7 @@ public class Red extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.70f);
+        tfod.setMinResultConfidence(0.85f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -228,20 +262,33 @@ public class Red extends LinearOpMode {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if (recognition.getLabel(). equals("Red Cat")) {
-                if (x >= 100 && x <= 200) {
-
-                } else if (x >= 100 && x <= 200) {
-
-                } else if (x >= 100 && x <= 200) {
-
+            //if (recognition.getLabel(). equals("Red Cat")) {
+                if (recognition.getWidth() >= 299) {
+                    //left
+                } else if (recognition.getWidth() >= 300 && recognition.getWidth() <= 400) {
+                    //middle
+                    forward(27, .3);
+                    sleep(1000);
+                    backwards(20, .3);
+                    sleep(1000);
+                    //rotate right
+                    frontleftMotor.setTargetPosition(50);
+                    frontrightMotor.setTargetPosition(-50);
+                    backleftMotor.setTargetPosition(50);
+                    backrightMotor.setTargetPosition(-50);
+                    //go to backstage
+                    forward(5, .3);
+                    left(5, .3);
+                    //Lift_Motor_1.setTargetPosition(kEndPosition);
+                    //Lift_Motor_1.setPower(1);
+                    sleep(1000);
+                    forward(9, .3);
+                } else if (recognition.getWidth() <= 401) {
+                    //right
                 }else{
-
+                    //middle code (Even if undetected)
                 }
 
-            }else{
-
-            }
         }   // end for() loop
 
     }   // end method telemetryTfod()

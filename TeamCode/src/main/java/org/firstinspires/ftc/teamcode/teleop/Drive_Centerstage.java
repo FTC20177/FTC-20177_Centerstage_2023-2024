@@ -33,7 +33,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-//import org.firstinspires.ftc.teamcode.Presets;
+import org.firstinspires.ftc.teamcode.Presets;
 
 
 /**
@@ -59,8 +59,6 @@ public class Drive_Centerstage extends LinearOpMode {
 
     private DcMotor intake;
     private DcMotorEx Lift_Motor_1;
-    private DcMotorEx Lift_Motor_2;
-
     private CRServo Spin;
 
 
@@ -69,6 +67,8 @@ public class Drive_Centerstage extends LinearOpMode {
     double clawupdate;
     boolean toggledown = false;
     boolean drivesystem = true;
+    int kStartingPosition = Presets.kStartingPosition;
+    int kEndPosition = Presets.kEndPosition;
 
 
     double kPower = 0;
@@ -83,13 +83,23 @@ public class Drive_Centerstage extends LinearOpMode {
         frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
         intake = hardwareMap.get(DcMotor.class, "intake");
         Lift_Motor_1 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_1");
-        Lift_Motor_2 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_2");
         Spin = hardwareMap.get(CRServo.class, "Spin");
 
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
         boolean changed = false;
+
+        Lift_Motor_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        Lift_Motor_1.setTargetPosition(0);
+
+        Lift_Motor_1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //Lift_Motor_1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
         // Wait for the game to start (driver presses PLAY)
         //claw.setPosition(0);
         waitForStart();
@@ -98,6 +108,7 @@ public class Drive_Centerstage extends LinearOpMode {
 
         while (opModeIsActive()) {
             telemetry.addData("Status", "Running");
+            telemetry.addData("Slide Encoder", Lift_Motor_1.getCurrentPosition());
             telemetry.update();
 
             //setMotorPower
@@ -105,6 +116,7 @@ public class Drive_Centerstage extends LinearOpMode {
             double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
             //these had 'final' before them at one point "final double v1 = r * Math.cos(robotangle) + rightx"
             //-Team 15036
+
 
             double rightx = gamepad1.right_stick_x * .75;
             double v1 = (r * Math.cos(robotAngle)) * 1 - rightx;
@@ -116,21 +128,16 @@ public class Drive_Centerstage extends LinearOpMode {
             backleftMotor.setPower(v3);
             backrightMotor.setPower(-v4);
 
-            //intake.setPower(intakePwr);
 
-            //tgtPower = this.gamepad1.left_trigger;
-            //Lift_Motor_1.setVelocity(-2400);
-            //Lift_Motor_2.setVelocity(2400);
-            //tgtPower = this.gamepad1.right_trigger;
-            //Lift_Motor_1.setVelocity(2400);
-            //Lift_Motor_2.setVelocity(-2400);
+            if (gamepad1.right_bumper){
+                Lift_Motor_1.setTargetPosition(kEndPosition);
+                Lift_Motor_1.setPower(1);
+            }else if (gamepad1.left_bumper){
+                Lift_Motor_1.setTargetPosition(kStartingPosition);
+                Lift_Motor_1.setPower(.6);
+            }else{
 
-            tgtPower = this.gamepad1.left_trigger;
-            Lift_Motor_1.setPower(-tgtPower);
-            Lift_Motor_2.setPower(tgtPower);
-            tgtPower = this.gamepad1.right_trigger;
-            Lift_Motor_1.setPower(tgtPower);
-            Lift_Motor_2.setPower(-tgtPower);
+            }
 
 
             if (gamepad1.x && !changed) {
