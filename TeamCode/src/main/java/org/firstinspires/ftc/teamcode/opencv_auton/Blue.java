@@ -61,7 +61,11 @@ public class Blue extends LinearOpMode {
 
     double tgtPower = 0;
     double clawupdate;
-    double pos = 0;
+
+    boolean left = false;
+    boolean center = false;
+    boolean right = false;
+
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -167,22 +171,22 @@ public class Blue extends LinearOpMode {
 
             if (x >= 70 && x <= 170) {
                 telemetry.addData("Position", "Left");
-                telemetry.addData("position left", recognition.getLeft());
-                telemetry.addData("position right", recognition.getRight());
                 telemetry.addData("Center pos", x);
-                pos = 1;
+                left = true;
+                center = false;
+                right = false;
             } else if (x >= 300 && x <= 350) {
                 telemetry.addData("Position", "Center");
-                telemetry.addData("position left", recognition.getLeft());
-                telemetry.addData("position right", recognition.getRight());
                 telemetry.addData("Center pos", x);
-                pos = 2;
+                left = false;
+                center = true;
+                right = false;
             } else if (x >= 450 && x <= 900) {
                 telemetry.addData("Position", "Right");
-                telemetry.addData("position left", recognition.getLeft());
-                telemetry.addData("position right", recognition.getRight());
                 telemetry.addData("Center pos", x);
-                pos = 1;
+                left = false;
+                center = false;
+                right = true;
             } else {
                 telemetry.addData("Position", "Unknown");
                 telemetry.addData("position left", recognition.getLeft());
@@ -218,32 +222,96 @@ public class Blue extends LinearOpMode {
         }
 
 
-/**
- * Initialize the TensorFlow Object Detection processor.
- */
+        if (opModeIsActive()) {
+            while (opModeIsActive()) {
 
+                if (left = true) {
+                    //left
+                } else if (center = true) {
+                    //middle
 
-/**
- * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
- */
-
-
-
-/**
- * Initialize the TensorFlow Object Detection processor.
- */
-
-            if (opModeIsActive()) {
-                while (opModeIsActive()) {
-
-                    telemetryTfod();
-
-                    // end method telemetryTfod()
-
-                    // end class
-
+                } else if (right = true) {
+                    //right
+                } else {
+                    //middle code (Even if undetected)
                 }
-            }
+
+            }   // end for() loop
+
+        }   // end method telemetryTfod()
+
+    }// end of code
+
+
+        void forwards(double distance, double power) {
+            frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+            backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+            frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() + (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+            backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() + (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+            frontleftMotor.setPower(power);
+            frontrightMotor.setPower(power);
+            backleftMotor.setPower(power);
+            backrightMotor.setPower(power);
+        }
+
+
+
+    void backwards(double distance, double power) {
+
+        //frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
+        frontleftMotor.setTargetPosition(backrightMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() + (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+    }
+
+    void left(double distance, double power) {
+
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+    }
+
+
+    void right(double distance, double power) {
+
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+        telemetry.update();
+        }
+
+        void updatedTelemetry () {
+            telemetry.addData("Status", "Running");
+            telemetry.addData("FL", frontleftMotor.getCurrentPosition());
+            telemetry.addData("FR", frontrightMotor.getCurrentPosition());
+            telemetry.addData("BL", backleftMotor.getCurrentPosition());
+            telemetry.addData("BR", backrightMotor.getCurrentPosition());
+            telemetry.update();
+        }
+
 
     }
-}
+
+
+
+
+
+
+
+
+

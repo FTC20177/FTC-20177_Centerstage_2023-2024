@@ -311,7 +311,6 @@ public class Red extends LinearOpMode {
         }
         sleep(1000);
     }
-
     void backwards(double distance, double power ){
 
         //frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
