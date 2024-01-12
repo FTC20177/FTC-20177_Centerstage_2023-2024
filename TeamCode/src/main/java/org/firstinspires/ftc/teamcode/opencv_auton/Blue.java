@@ -165,25 +165,29 @@ public class Blue extends LinearOpMode {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if (recognition.getLeft() <= 500 && recognition.getLeft() >= 540 && recognition.getRight() <= 550 && recognition.getRight() >= 610) {
-                telemetry.addData("Position", "Right");
-                telemetry.addData("position left", recognition.getLeft());
-                telemetry.addData("position right", recognition.getRight());
-                pos = 3;
-            } else if (recognition.getLeft() <= 250 && recognition.getLeft() >= 280 && recognition.getRight() <= 330 && recognition.getRight() >= 360) {
-                telemetry.addData("Position", "Center");
-                telemetry.addData("position left", recognition.getLeft());
-                telemetry.addData("position right", recognition.getRight());
-                pos = 2;
-            } else if (recognition.getLeft() <= 10 && recognition.getLeft() >= 50 && recognition.getRight() <= 110 && recognition.getRight() >= 150) {
+            if (x >= 70 && x <= 170) {
                 telemetry.addData("Position", "Left");
                 telemetry.addData("position left", recognition.getLeft());
                 telemetry.addData("position right", recognition.getRight());
+                telemetry.addData("Center pos", x);
+                pos = 1;
+            } else if (x >= 300 && x <= 350) {
+                telemetry.addData("Position", "Center");
+                telemetry.addData("position left", recognition.getLeft());
+                telemetry.addData("position right", recognition.getRight());
+                telemetry.addData("Center pos", x);
+                pos = 2;
+            } else if (x >= 450 && x <= 900) {
+                telemetry.addData("Position", "Right");
+                telemetry.addData("position left", recognition.getLeft());
+                telemetry.addData("position right", recognition.getRight());
+                telemetry.addData("Center pos", x);
                 pos = 1;
             } else {
                 telemetry.addData("Position", "Unknown");
                 telemetry.addData("position left", recognition.getLeft());
                 telemetry.addData("position right", recognition.getRight());
+                telemetry.addData("Center pos", x);
 
             }
             telemetry.update();
