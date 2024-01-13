@@ -59,7 +59,7 @@ public class Drive_Centerstage_NoAuto_Lift extends LinearOpMode {
     private DcMotor frontrightMotor;
 
     private DcMotor intake;
-    private DcMotorEx Lift_Motor_1;
+    private DcMotor Lift_Motor_1;
     private CRServo Spin;
 
 
@@ -83,23 +83,18 @@ public class Drive_Centerstage_NoAuto_Lift extends LinearOpMode {
         frontleftMotor = hardwareMap.get(DcMotor.class, "frontleftMotor");
         frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        Lift_Motor_1 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_1");
+        Lift_Motor_1 = hardwareMap.get(DcMotor.class, "Lift_Motor_1");
         Spin = hardwareMap.get(CRServo.class, "Spin");
 
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
         boolean changed = false;
+
 
         Lift_Motor_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        Lift_Motor_1.setTargetPosition(0);
-
-        //Lift_Motor_1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         Lift_Motor_1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
 
         // Wait for the game to start (driver presses PLAY)
         //claw.setPosition(0);

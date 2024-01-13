@@ -29,12 +29,16 @@
 
 package org.firstinspires.ftc.teamcode.opencv_auton;
 
+import static org.firstinspires.ftc.teamcode.Presets.kEndPosition;
+import static org.firstinspires.ftc.teamcode.Presets.kStartingPosition;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -54,10 +58,12 @@ import java.util.List;
 @Autonomous(name = "Blue Cat Detection", group = "Concept")
 public class Blue extends LinearOpMode {
     private Blinker control_Hub;
-    private DcMotor backleftMotor;
-    private DcMotor backrightMotor;
-    private DcMotor frontleftMotor;
-    private DcMotor frontrightMotor;
+    private DcMotorEx backleftMotor;
+    private DcMotorEx backrightMotor;
+    private DcMotorEx frontleftMotor;
+    private DcMotorEx frontrightMotor;
+
+    private DcMotorEx Lift_Motor_1;
 
     double tgtPower = 0;
     double clawupdate;
@@ -65,6 +71,9 @@ public class Blue extends LinearOpMode {
     boolean left = false;
     boolean center = false;
     boolean right = false;
+
+    float pos = 0;
+
 
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -169,24 +178,18 @@ public class Blue extends LinearOpMode {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if (x >= 70 && x <= 170) {
+            if (x >= 10 && x <= 170) {
                 telemetry.addData("Position", "Left");
                 telemetry.addData("Center pos", x);
-                left = true;
-                center = false;
-                right = false;
-            } else if (x >= 300 && x <= 350) {
+                pos = 1;
+            } else if (x >= 250 && x <= 350) {
                 telemetry.addData("Position", "Center");
                 telemetry.addData("Center pos", x);
-                left = false;
-                center = true;
-                right = false;
+                pos = 2;
             } else if (x >= 450 && x <= 900) {
                 telemetry.addData("Position", "Right");
                 telemetry.addData("Center pos", x);
-                left = false;
-                center = false;
-                right = true;
+                pos = 3;
             } else {
                 telemetry.addData("Position", "Unknown");
                 telemetry.addData("position left", recognition.getLeft());
@@ -194,8 +197,8 @@ public class Blue extends LinearOpMode {
                 telemetry.addData("Center pos", x);
 
             }
-            telemetry.update();
 
+            telemetry.update();
         }
     }   // end for() loop
 
@@ -204,10 +207,11 @@ public class Blue extends LinearOpMode {
 
         //hardware map
         control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
-        backleftMotor = hardwareMap.get(DcMotor.class, "backleftMotor");
-        backrightMotor = hardwareMap.get(DcMotor.class, "backrightMotor");
-        frontleftMotor = hardwareMap.get(DcMotor.class, "frontleftMotor");
-        frontrightMotor = hardwareMap.get(DcMotor.class, "frontrightMotor");
+        backleftMotor = hardwareMap.get(DcMotorEx.class, "backleftMotor");
+        backrightMotor = hardwareMap.get(DcMotorEx.class, "backrightMotor");
+        frontleftMotor = hardwareMap.get(DcMotorEx.class, "frontleftMotor");
+        frontrightMotor = hardwareMap.get(DcMotorEx.class, "frontrightMotor");
+        Lift_Motor_1 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_1");
 
 
         initTfod();
@@ -224,14 +228,172 @@ public class Blue extends LinearOpMode {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
+                telemetry.addData("Status", "Running");
+                telemetry.addData("Encoder", Lift_Motor_1.getCurrentPosition());
+                telemetry.update();
 
-                if (left = true) {
+                frontleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                frontrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                backrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                Lift_Motor_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                frontleftMotor.setTargetPosition(0);
+                frontrightMotor.setTargetPosition(0);
+                backleftMotor.setTargetPosition(0);
+                backrightMotor.setTargetPosition(0);
+
+                Lift_Motor_1.setTargetPosition(0);
+
+                frontleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frontrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backleftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backrightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                Lift_Motor_1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                if (pos == 1) {
                     //left
-                } else if (center = true) {
+
+                    forward (3, .5);
+
+                    sleep(500);
+
+                    left (16, .5);
+
+                    sleep(500);
+
+                    forward (23, .5);
+
+                    sleep(1000);
+
+                    backwards(20, .5);
+
+                    sleep (500);
+
+                    left(15, .5);
+
+                    sleep(500);
+
+                    forward(25, .5);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1000);
+
+                    frontleftMotor.setPower(.8);
+                    frontrightMotor.setPower(.8);
+                    backleftMotor.setPower(.8);
+                    backrightMotor.setPower(.8);
+
+                    sleep(1000);
+
+                    Lift_Motor_1.setTargetPosition(kEndPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(6000);
+                    left (12, .5);
+                    forward(15, .5);
+                    sleep(500);
+
+                    Lift_Motor_1.setTargetPosition(kStartingPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(6000);
+
+                    terminateOpModeNow();
+                } else if (pos == 2) {
                     //middle
 
-                } else if (right = true) {
+                    //extend slide
+
+                    forward(30, .5);
+                    sleep (500);
+                    backwards(8, .5);
+
+                    sleep(1000);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1000);
+
+                    frontleftMotor.setPower(.8);
+                    frontrightMotor.setPower(.8);
+                    backleftMotor.setPower(.8);
+                    backrightMotor.setPower(.8);
+
+                    sleep(1000);
+
+                    Lift_Motor_1.setTargetPosition(kEndPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(7000);
+                    forward (30, .5);
+                    //right (6, .5);
+                    forward(4, .5);
+
+                    Lift_Motor_1.setTargetPosition(kStartingPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(6000);
+
+                    terminateOpModeNow();
+                } else if (pos == 3) {
                     //right
+
+                    forward (24.5, .5);
+                    sleep(1000);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() - 1000);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() - 1000);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() - 1000);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() - 1000);
+
+                    frontleftMotor.setPower(.8);
+                    frontrightMotor.setPower(.8);
+                    backleftMotor.setPower(.8);
+                    backrightMotor.setPower(.8);
+
+                    sleep(1000);
+
+                    forward(5, .5);
+
+                    sleep(500);
+
+                    backwards(9, .5);
+
+                    sleep(500);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 2000);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 2000);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 2000);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 2000);
+
+                    frontleftMotor.setPower(.8);
+                    frontrightMotor.setPower(.8);
+                    backleftMotor.setPower(.8);
+                    backrightMotor.setPower(.8);
+
+                    sleep(500);
+
+                    Lift_Motor_1.setTargetPosition(kEndPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(7000);
+                    forward (30, .5);
+                    right (6, .5);
+                    forward(6, .5);
+
+
+                    Lift_Motor_1.setTargetPosition(kStartingPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep (6000);
+
+                    terminateOpModeNow();
                 } else {
                     //middle code (Even if undetected)
                 }
@@ -242,72 +404,80 @@ public class Blue extends LinearOpMode {
 
     }// end of code
 
+    void forward(double distance, double power ){
 
-        void forwards(double distance, double power) {
-            frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
-            backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
-            frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() + (int) (distance * (537.7 / 12.1211) * (30 / 26)));
-            backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() + (int) (distance * (537.7 / 12.1211) * (30 / 26)));
-            frontleftMotor.setPower(power);
-            frontrightMotor.setPower(power);
-            backleftMotor.setPower(power);
-            backrightMotor.setPower(power);
-        }
-
-
-
-    void backwards(double distance, double power) {
-
-        //frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
-        frontleftMotor.setTargetPosition(backrightMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() + (int) (distance * (537.7 / 12.1211) * (30 / 26)));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() - (int) (distance * (537.7 / 12.1211) * (30 / 26)));
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
         frontleftMotor.setPower(power);
         frontrightMotor.setPower(power);
         backleftMotor.setPower(power);
         backrightMotor.setPower(power);
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
+        }
+        sleep(1000);
+    }
+    void backwards(double distance, double power ){
+
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
+        }
+        sleep(1000);
+    }
+    void left(double distance, double power ){
+
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        frontleftMotor.setPower(power);
+        frontrightMotor.setPower(power);
+        backleftMotor.setPower(power);
+        backrightMotor.setPower(power);
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
+        }
+        sleep(2000);
     }
 
-    void left(double distance, double power) {
+    void right(double distance, double power ){
 
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
+        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)((distance*(537.7/12.1211)*(30/26))));
+        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()+(int)((distance*(537.7/12.1211)*(30/26))));
         frontleftMotor.setPower(power);
         frontrightMotor.setPower(power);
         backleftMotor.setPower(power);
         backrightMotor.setPower(power);
-    }
-
-
-    void right(double distance, double power) {
-
-        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
-        backleftMotor.setTargetPosition(backleftMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
-        frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition() - (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
-        backrightMotor.setTargetPosition(backrightMotor.getTargetPosition() + (int) ((distance * (537.7 / 12.1211) * (30 / 26))));
-        frontleftMotor.setPower(power);
-        frontrightMotor.setPower(power);
-        backleftMotor.setPower(power);
-        backrightMotor.setPower(power);
-        telemetry.update();
-        }
-
-        void updatedTelemetry () {
-            telemetry.addData("Status", "Running");
-            telemetry.addData("FL", frontleftMotor.getCurrentPosition());
-            telemetry.addData("FR", frontrightMotor.getCurrentPosition());
-            telemetry.addData("BL", backleftMotor.getCurrentPosition());
-            telemetry.addData("BR", backrightMotor.getCurrentPosition());
+        while(frontleftMotor.isBusy() && backleftMotor.isBusy() && frontrightMotor.isBusy() && backrightMotor.isBusy()){
+            updatedTelemetry();
             telemetry.update();
         }
+        sleep(2000);
 
-
+    }
+    void updatedTelemetry(){
+        telemetry.addData("Status", "Running");
+        telemetry.addData("FL", frontleftMotor.getCurrentPosition());
+        telemetry.addData("FR", frontrightMotor.getCurrentPosition());
+        telemetry.addData("BL", backleftMotor.getCurrentPosition());
+        telemetry.addData("BR", backrightMotor.getCurrentPosition());
+        telemetry.update();
     }
 
 
+}
 
 
 

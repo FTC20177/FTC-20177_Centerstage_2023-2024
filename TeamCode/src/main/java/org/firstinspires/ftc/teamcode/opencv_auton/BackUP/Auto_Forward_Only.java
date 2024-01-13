@@ -100,9 +100,26 @@ public class Auto_Forward_Only extends LinearOpMode {
         boolean running = true;
 
         while (opModeIsActive()) {
+            telemetry.addData("FLMotor", frontleftMotor.getCurrentPosition());
+            telemetry.addData("FRMotor", frontrightMotor.getCurrentPosition());
+            telemetry.addData("BLMotor", backleftMotor.getCurrentPosition());
+            telemetry.addData("BRMotor", backrightMotor.getCurrentPosition());
+
             telemetry.update();
             if (running == true) {
-                forward(27, .3);
+                //forward(27, .3);
+                frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
+                frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
+                backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
+                backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1000);
+
+                frontleftMotor.setPower(.8);
+                frontrightMotor.setPower(.8);
+                backleftMotor.setPower(.8);
+                backrightMotor.setPower(.8);
+
+                sleep(30000);
+
                 running = false;
                 terminateOpModeNow();
             }else{
@@ -132,8 +149,7 @@ public class Auto_Forward_Only extends LinearOpMode {
 
     void backwards(double distance, double power ){
 
-        //frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*103.6/7.42109*(47.5/23)));
-        frontleftMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
+        frontleftMotor.setTargetPosition(frontleftMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
         backleftMotor.setTargetPosition(backleftMotor.getTargetPosition()+(int)(distance*(537.7/12.1211)*(30/26)));
         frontrightMotor.setTargetPosition(frontrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
         backrightMotor.setTargetPosition(backrightMotor.getTargetPosition()-(int)(distance*(537.7/12.1211)*(30/26)));
