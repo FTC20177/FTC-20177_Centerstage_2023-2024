@@ -107,18 +107,7 @@ public class Auto_Forward_Only extends LinearOpMode {
 
             telemetry.update();
             if (running == true) {
-                //forward(27, .3);
-                frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
-                frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
-                backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
-                backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1000);
-
-                frontleftMotor.setPower(.8);
-                frontrightMotor.setPower(.8);
-                backleftMotor.setPower(.8);
-                backrightMotor.setPower(.8);
-
-                sleep(30000);
+                forward(27, .3);
 
                 running = false;
                 terminateOpModeNow();
