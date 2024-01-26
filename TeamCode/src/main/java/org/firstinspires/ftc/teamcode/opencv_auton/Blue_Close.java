@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.opencv_auton;
 
+import static org.firstinspires.ftc.teamcode.Presets.kAutoScorePosition;
 import static org.firstinspires.ftc.teamcode.Presets.kEndPosition;
 import static org.firstinspires.ftc.teamcode.Presets.kStartingPosition;
 
@@ -290,7 +291,7 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(1000);
 
-                    Lift_Motor_1.setTargetPosition(kEndPosition);
+                    Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
                     sleep(6000);
@@ -327,7 +328,7 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(1000);
 
-                    Lift_Motor_1.setTargetPosition(kEndPosition);
+                    Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
                     sleep(7000);
@@ -379,7 +380,7 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(500);
 
-                    Lift_Motor_1.setTargetPosition(kEndPosition);
+                    Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
                     sleep(7000);
