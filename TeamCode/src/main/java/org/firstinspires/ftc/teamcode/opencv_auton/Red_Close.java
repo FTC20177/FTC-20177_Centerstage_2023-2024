@@ -345,6 +345,7 @@ public class Red_Close extends LinearOpMode {
                     forward (30, .5);
                     //left (4, .5);
                     forward(7, .5);
+                    forward(5,1);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
