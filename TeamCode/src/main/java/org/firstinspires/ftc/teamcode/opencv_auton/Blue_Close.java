@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.opencv_auton;
 
 import static org.firstinspires.ftc.teamcode.Presets.kAutoScorePosition;
 import static org.firstinspires.ftc.teamcode.Presets.kEndPosition;
+import static org.firstinspires.ftc.teamcode.Presets.kNoTouchPosition;
 import static org.firstinspires.ftc.teamcode.Presets.kStartingPosition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -183,7 +184,7 @@ public class Blue_Close extends LinearOpMode {
                 telemetry.addData("Position", "Left");
                 telemetry.addData("Center pos", x);
                 pos = 1;
-            } else if (x >= 250 && x <= 350) {
+            } else if (x >= 250 && x <= 400) {
                 telemetry.addData("Position", "Center");
                 telemetry.addData("Center pos", x);
                 pos = 2;
@@ -257,6 +258,9 @@ public class Blue_Close extends LinearOpMode {
                 if (pos == 1) {
                     //left
 
+                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setPower(1);
+
                     forward (3, .5);
 
                     sleep(500);
@@ -273,11 +277,11 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep (500);
 
-                    left(15, .5);
+                    left(19, .5);
 
                     sleep(500);
 
-                    forward(25, .5);
+                    forward(26, .5);
 
                     frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
                     frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
@@ -294,9 +298,10 @@ public class Blue_Close extends LinearOpMode {
                     Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(6000);
-                    left (12, .5);
-                    forward(15, .5);
+                    sleep(2000);
+                    left (19, .5);
+                    forward(15, .25);
+                    backwards(5, .25);
                     sleep(500);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
@@ -310,16 +315,19 @@ public class Blue_Close extends LinearOpMode {
 
                     //extend slide
 
+                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setPower(1);
+
                     forward(30, .5);
                     sleep (500);
-                    backwards(8, .5);
-
+                    backwards(10, .5);
+                    left (5, .5);
                     sleep(1000);
 
-                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
-                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
-                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
-                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1000);
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1050);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1050);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1050);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1050);
 
                     frontleftMotor.setPower(.8);
                     frontrightMotor.setPower(.8);
@@ -333,8 +341,9 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(7000);
                     forward (30, .5);
-                    //right (6, .5);
-                    forward(4, .5);
+                    right (10, .5);
+                    forward(13, .15);
+                    backwards(5,.25);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
@@ -344,6 +353,9 @@ public class Blue_Close extends LinearOpMode {
                     terminateOpModeNow();
                 } else if (pos == 3) {
                     //right
+
+                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setPower(1);
 
                     forward (24.5, .5);
                     sleep(1000);
@@ -385,8 +397,9 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(7000);
                     forward (30, .5);
-                    right (6, .5);
-                    forward(6, .5);
+                    right (7.5, .5);
+                    forward(10, .15);
+                    backwards(5, .5);
 
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);

@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.opencv_auton;
 
 import static org.firstinspires.ftc.teamcode.Presets.kAutoScorePosition;
 import static org.firstinspires.ftc.teamcode.Presets.kEndPosition;
+import static org.firstinspires.ftc.teamcode.Presets.kNoTouchPosition;
 import static org.firstinspires.ftc.teamcode.Presets.kStartingPosition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -257,6 +258,9 @@ public class Red_Close extends LinearOpMode {
                 if (pos == 1) {
                     //left
 
+                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setPower(1);
+
                     forward (24.5, .5);
                     sleep(1000);
 
@@ -313,6 +317,9 @@ public class Red_Close extends LinearOpMode {
 
                     //extend slide
 
+                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setPower(1);
+
                     forward(30, .5);
                     sleep (500);
                     backwards(10, .5);
@@ -336,7 +343,7 @@ public class Red_Close extends LinearOpMode {
 
                     sleep(7000);
                     forward (30, .5);
-                    left (4, .5);
+                    //left (4, .5);
                     forward(7, .5);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
@@ -347,6 +354,9 @@ public class Red_Close extends LinearOpMode {
                     terminateOpModeNow();
                 } else if (pos == 3) {
                     //right
+
+                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setPower(1);
 
                     forward (3, .5);
 
@@ -381,7 +391,7 @@ public class Red_Close extends LinearOpMode {
                     //
                     right (13, .5);
                     forward(15, .25);
-                    //backwards(15, .5);
+                    backwards(5, .5);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
