@@ -41,6 +41,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -66,6 +67,11 @@ public class Blue_Close extends LinearOpMode {
     private DcMotorEx frontrightMotor;
 
     private DcMotorEx Lift_Motor_1;
+
+    private Servo airplane;
+    private Servo L_Lift;
+    private Servo R_Lift;
+    private DcMotor PULL;
 
     double tgtPower = 0;
     double clawupdate;
@@ -214,6 +220,10 @@ public class Blue_Close extends LinearOpMode {
         frontleftMotor = hardwareMap.get(DcMotorEx.class, "frontleftMotor");
         frontrightMotor = hardwareMap.get(DcMotorEx.class, "frontrightMotor");
         Lift_Motor_1 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_1");
+        airplane = hardwareMap.get(Servo.class, "airplane");
+        L_Lift = hardwareMap.get(Servo.class, "L_Lift");
+        R_Lift = hardwareMap.get(Servo.class, "R_Lift");
+        PULL = hardwareMap.get(DcMotor.class, "PULL");
 
 
         initTfod();
@@ -225,6 +235,9 @@ public class Blue_Close extends LinearOpMode {
             telemetry.addData(">", "Touch Play to start OpMode");
             telemetryTfod();
             telemetry.update();
+
+            airplane.setPosition(0);
+
         }
 
 
@@ -233,6 +246,8 @@ public class Blue_Close extends LinearOpMode {
                 telemetry.addData("Status", "Running");
                 telemetry.addData("Encoder", Lift_Motor_1.getCurrentPosition());
                 telemetry.update();
+
+                airplane.setPosition(0);
 
                 frontleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 frontrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -301,8 +316,8 @@ public class Blue_Close extends LinearOpMode {
                     sleep(2000);
                     left (19, .5);
                     forward(15, .25);
+                    sleep(1000);
                     backwards(5, .25);
-                    sleep(500);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
@@ -339,10 +354,11 @@ public class Blue_Close extends LinearOpMode {
                     Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(7000);
+                    sleep(6000);
                     forward (30, .5);
                     right (10, .5);
                     forward(13, .15);
+                    sleep(1000);
                     backwards(5,.25);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
@@ -390,15 +406,16 @@ public class Blue_Close extends LinearOpMode {
                     backleftMotor.setPower(.8);
                     backrightMotor.setPower(.8);
 
-                    sleep(500);
+                    sleep(1000);
 
                     Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(7000);
+                    sleep(2000);
                     forward (30, .5);
                     right (7.5, .5);
                     forward(10, .15);
+                    sleep(1000);
                     backwards(5, .5);
 
 

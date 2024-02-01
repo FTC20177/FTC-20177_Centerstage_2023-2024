@@ -60,6 +60,11 @@ public class Drive_Centerstage extends LinearOpMode {
     private DcMotor intake;
     private DcMotorEx Lift_Motor_1;
     private CRServo Spin;
+    private Servo airplane;
+    private Servo L_Lift;
+    private Servo R_Lift;
+    private DcMotor PULL;
+
 
 
     double intakePwr = 1;
@@ -84,6 +89,10 @@ public class Drive_Centerstage extends LinearOpMode {
         intake = hardwareMap.get(DcMotor.class, "intake");
         Lift_Motor_1 = hardwareMap.get(DcMotorEx.class, "Lift_Motor_1");
         Spin = hardwareMap.get(CRServo.class, "Spin");
+        airplane = hardwareMap.get(Servo.class, "airplane");
+        L_Lift = hardwareMap.get(Servo.class, "L_Lift");
+        R_Lift = hardwareMap.get(Servo.class, "R_Lift");
+        PULL = hardwareMap.get(DcMotor.class, "PULL");
 
 
         telemetry.addData("Status", "Initialized");
@@ -99,6 +108,7 @@ public class Drive_Centerstage extends LinearOpMode {
 
         //Lift_Motor_1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        airplane.setPosition(0);
 
         // Wait for the game to start (driver presses PLAY)
         //claw.setPosition(0);
@@ -109,6 +119,8 @@ public class Drive_Centerstage extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Status", "Running");
             telemetry.addData("Slide Encoder", Lift_Motor_1.getCurrentPosition());
+            telemetry.addData("L_Lift", L_Lift.getPosition());
+            telemetry.addData("R_Lift", R_Lift.getPosition());
             telemetry.update();
 
             //setMotorPower
@@ -153,6 +165,25 @@ public class Drive_Centerstage extends LinearOpMode {
                 intake.setPower(kPower);
             }
 
+
+            tgtPower = this.gamepad1.left_trigger;
+            PULL.setPower(-tgtPower);
+            tgtPower = this.gamepad1.right_trigger;
+            PULL.setPower(tgtPower);
+
+            if (gamepad1.dpad_up) {
+                airplane.setPosition(180);
+            }else{
+                airplane.setPosition(0);
+            }
+
+            if (gamepad1.a){
+                L_Lift.setPosition(.90);
+                R_Lift.setPosition(.25);
+            }else if (gamepad1.b){
+                L_Lift.setPosition(0);
+                R_Lift.setPosition(.90);
+            }
 
         }
     }
