@@ -298,6 +298,8 @@ public class Blue_Close extends LinearOpMode {
 
                     forward(26, .5);
 
+                    //test
+
                     frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
                     frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
                     backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
