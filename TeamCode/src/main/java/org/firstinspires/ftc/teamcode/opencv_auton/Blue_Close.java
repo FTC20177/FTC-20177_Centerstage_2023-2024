@@ -280,25 +280,23 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(500);
 
-                    left (16, .5);
+                    left (18, .5);
 
                     sleep(500);
 
                     forward (23, .5);
 
-                    sleep(1000);
+                    sleep(500);
 
                     backwards(20, .5);
 
                     sleep (500);
 
-                    left(19, .5);
+                    left(21, .5);
 
                     sleep(500);
 
                     forward(26, .5);
-
-                    //test
 
                     frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
                     frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
@@ -310,13 +308,11 @@ public class Blue_Close extends LinearOpMode {
                     backleftMotor.setPower(.8);
                     backrightMotor.setPower(.8);
 
-                    sleep(1000);
-
                     Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
                     sleep(2000);
-                    left (19, .5);
+                    left (14, .5);
                     forward(15, .25);
                     sleep(1000);
                     backwards(5, .25);
@@ -394,7 +390,7 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(500);
 
-                    backwards(9, .5);
+                    backwards(11, .5);
 
                     sleep(500);
 
@@ -414,8 +410,8 @@ public class Blue_Close extends LinearOpMode {
                     Lift_Motor_1.setPower(1);
 
                     sleep(2000);
-                    forward (30, .5);
-                    right (7.5, .5);
+                    forward (28, .5);
+                    right (7, .5);
                     forward(10, .15);
                     sleep(1000);
                     backwards(5, .5);

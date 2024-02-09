@@ -176,13 +176,12 @@ public class Drive_Centerstage extends LinearOpMode {
             }else{
                 airplane.setPosition(0);
             }
-
             if (gamepad1.a){
-                L_Lift.setPosition(.90);
-                R_Lift.setPosition(.25);
+                L_Lift.setPosition(.45);
+                R_Lift.setPosition(0);
             }else if (gamepad1.b){
-                L_Lift.setPosition(0);
-                R_Lift.setPosition(.90);
+                L_Lift.setPosition(.0);
+                R_Lift.setPosition(.45);
             }
 
         }

@@ -315,9 +315,9 @@ public class Red_Close extends LinearOpMode {
                     sleep(7000);
                     forward (30, .5);
                     left (12, .5);
-                    forward(8, .25);
+                    forward(12, .25);
                     sleep(500);
-                    backwards(3, 5);
+                    backwards(5, 5);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
@@ -356,8 +356,8 @@ public class Red_Close extends LinearOpMode {
 
                     sleep(6000);
                     forward (30, .5);
-                    left (4, .5);
-                    forward(7, .25);
+                    left (2, .5);
+                    forward(9, .25);
                     sleep(1000);
                     backwards(5,.5);
 
@@ -404,8 +404,8 @@ public class Red_Close extends LinearOpMode {
 
                     sleep(2000);
                     //
-                    right (13, .5);
-                    forward(15, .25);
+                    right (15, .5);
+                    forward(17, .25);
                     sleep(1000);
                     backwards(5, .5);
 
