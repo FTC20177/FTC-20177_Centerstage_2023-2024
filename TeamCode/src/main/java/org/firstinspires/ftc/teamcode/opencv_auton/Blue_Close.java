@@ -328,7 +328,7 @@ public class Blue_Close extends LinearOpMode {
 
                     //extend slide
 
-                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setTargetPosition(kEndPosition);
                     Lift_Motor_1.setPower(1);
 
                     forward(30, .5);

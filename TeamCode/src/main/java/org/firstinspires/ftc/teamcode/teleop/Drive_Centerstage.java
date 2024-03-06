@@ -65,7 +65,14 @@ public class Drive_Centerstage extends LinearOpMode {
     private Servo R_Lift;
     private DcMotor PULL;
 
-
+    private DigitalChannel lF_Green;
+    private DigitalChannel lF_Red;
+    private DigitalChannel lR_Green;
+    private DigitalChannel lR_Red;
+    private DigitalChannel rF_Green;
+    private DigitalChannel rF_Red;
+    private DigitalChannel rR_Green;
+    private DigitalChannel rR_Red;
 
     double intakePwr = 1;
     double tgtPower = 0;
@@ -94,6 +101,14 @@ public class Drive_Centerstage extends LinearOpMode {
         R_Lift = hardwareMap.get(Servo.class, "R_Lift");
         PULL = hardwareMap.get(DcMotor.class, "PULL");
 
+        lF_Green = hardwareMap.get(DigitalChannel.class, "lF_Green");
+        lF_Red = hardwareMap.get(DigitalChannel.class, "lF_Red");
+        lR_Green = hardwareMap.get(DigitalChannel.class, "lR_Green");
+        lR_Red = hardwareMap.get(DigitalChannel.class, "lR_Red");
+        rF_Green = hardwareMap.get(DigitalChannel.class, "rF_Green");
+        rF_Red = hardwareMap.get(DigitalChannel.class, "rF_Red");
+        rR_Green = hardwareMap.get(DigitalChannel.class, "rR_Green");
+        rR_Red = hardwareMap.get(DigitalChannel.class, "rR_Red");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -109,6 +124,15 @@ public class Drive_Centerstage extends LinearOpMode {
         //Lift_Motor_1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         airplane.setPosition(0);
+
+        rF_Green.setMode(DigitalChannel.Mode.OUTPUT);
+        rR_Green.setMode(DigitalChannel.Mode.OUTPUT);
+        lR_Green.setMode(DigitalChannel.Mode.OUTPUT);
+        lF_Green.setMode(DigitalChannel.Mode.OUTPUT);
+        rF_Red.setMode(DigitalChannel.Mode.OUTPUT);
+        rR_Red.setMode(DigitalChannel.Mode.OUTPUT);
+        lR_Red.setMode(DigitalChannel.Mode.OUTPUT);
+        lF_Red.setMode(DigitalChannel.Mode.OUTPUT);
 
         // Wait for the game to start (driver presses PLAY)
         //claw.setPosition(0);
@@ -130,16 +154,48 @@ public class Drive_Centerstage extends LinearOpMode {
             //-Team 15036
 
 
-            double rightx = gamepad1.right_stick_x * .75;
-            double v1 = (r * Math.cos(robotAngle)) * 1 - rightx;
-            double v2 = (r * Math.sin(robotAngle)) * 1 + rightx;
-            double v3 = (r * Math.sin(robotAngle)) * 1 - rightx;
-            double v4 = (r * Math.cos(robotAngle)) * 1 + rightx;
-            frontleftMotor.setPower(v1);
-            frontrightMotor.setPower(-v2);
-            backleftMotor.setPower(v3);
-            backrightMotor.setPower(-v4);
+            if (gamepad1.left_stick_button) {
+                double rightx = gamepad1.right_stick_x * .25;
+                double v1 = (r * Math.cos(robotAngle)) * .45 - rightx;
+                double v2 = (r * Math.sin(robotAngle)) * .45 + rightx;
+                double v3 = (r * Math.sin(robotAngle)) * .45 - rightx;
+                double v4 = (r * Math.cos(robotAngle)) * .45 + rightx;
+                frontleftMotor.setPower(v1);
+                frontrightMotor.setPower(-v2);
+                backleftMotor.setPower(v3);
+                backrightMotor.setPower(-v4);
 
+                rF_Red.setState(true);
+                rR_Red.setState(true);
+                lR_Red.setState(true);
+                lF_Red.setState(true);
+
+                rF_Green.setState(false);
+                rR_Green.setState(false);
+                lR_Green.setState(false);
+                lF_Green.setState(false);
+
+            } else {
+                double rightx = gamepad1.right_stick_x * .45;
+                double v1 = (r * Math.cos(robotAngle)) * 1 - rightx;
+                double v2 = (r * Math.sin(robotAngle)) * 1 + rightx;
+                double v3 = (r * Math.sin(robotAngle)) * 1 - rightx;
+                double v4 = (r * Math.cos(robotAngle)) * 1 + rightx;
+                frontleftMotor.setPower(v1);
+                frontrightMotor.setPower(-v2);
+                backleftMotor.setPower(v3);
+                backrightMotor.setPower(-v4);
+
+                rF_Green.setState(true);
+                rR_Green.setState(true);
+                lR_Green.setState(true);
+                lF_Green.setState(true);
+
+                rF_Red.setState(false);
+                rR_Red.setState(false);
+                lR_Red.setState(false);
+                lF_Red.setState(false);
+            }
 
             if (gamepad1.right_bumper){
                 Lift_Motor_1.setTargetPosition(kEndPosition);
@@ -174,11 +230,11 @@ public class Drive_Centerstage extends LinearOpMode {
             if (gamepad1.dpad_up) {
                 airplane.setPosition(180);
             }else{
-                airplane.setPosition(0);
+                airplane.setPosition(.100);
             }
             if (gamepad1.a){
                 L_Lift.setPosition(.45);
-                R_Lift.setPosition(0);
+                R_Lift.setPosition(.0);
             }else if (gamepad1.b){
                 L_Lift.setPosition(.0);
                 R_Lift.setPosition(.45);
