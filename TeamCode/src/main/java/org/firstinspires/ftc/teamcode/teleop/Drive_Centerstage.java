@@ -82,7 +82,6 @@ public class Drive_Centerstage extends LinearOpMode {
     int kStartingPosition = Presets.kStartingPosition;
     int kEndPosition = Presets.kEndPosition;
 
-
     double kPower = 0;
 
     @Override
@@ -115,6 +114,9 @@ public class Drive_Centerstage extends LinearOpMode {
 
         boolean changed = false;
 
+        boolean slow = false;
+
+
         Lift_Motor_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         Lift_Motor_1.setTargetPosition(0);
@@ -145,6 +147,13 @@ public class Drive_Centerstage extends LinearOpMode {
             telemetry.addData("Slide Encoder", Lift_Motor_1.getCurrentPosition());
             telemetry.addData("L_Lift", L_Lift.getPosition());
             telemetry.addData("R_Lift", R_Lift.getPosition());
+            //motor encoders
+            telemetry.addData("LF Motor", frontleftMotor.getCurrentPosition());
+            telemetry.addData("RF Motor", frontrightMotor.getCurrentPosition());
+            telemetry.addData("LR Motor", backleftMotor.getCurrentPosition());
+            telemetry.addData("RR Motor", backrightMotor.getCurrentPosition());
+
+
             telemetry.update();
 
             //setMotorPower
@@ -153,8 +162,7 @@ public class Drive_Centerstage extends LinearOpMode {
             //these had 'final' before them at one point "final double v1 = r * Math.cos(robotangle) + rightx"
             //-Team 15036
 
-
-            if (gamepad1.left_stick_button) {
+            if (gamepad1.right_bumper) {
                 double rightx = gamepad1.right_stick_x * .25;
                 double v1 = (r * Math.cos(robotAngle)) * .45 - rightx;
                 double v2 = (r * Math.sin(robotAngle)) * .45 + rightx;
@@ -197,10 +205,10 @@ public class Drive_Centerstage extends LinearOpMode {
                 lF_Red.setState(false);
             }
 
-            if (gamepad1.right_bumper){
+            if (gamepad1.left_bumper) {
                 Lift_Motor_1.setTargetPosition(kEndPosition);
                 Lift_Motor_1.setPower(1);
-            }else if (gamepad1.left_bumper){
+            }else if (gamepad1.dpad_down){
                 Lift_Motor_1.setTargetPosition(kStartingPosition);
                 Lift_Motor_1.setPower(.6);
             }else{

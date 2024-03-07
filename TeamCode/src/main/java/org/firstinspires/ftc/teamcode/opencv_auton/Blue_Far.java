@@ -58,14 +58,16 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Red_Close", group = "Concept")
-public class Red_Close extends LinearOpMode {
+@Autonomous(name = "Blue_Far", group = "Concept")
+public class Blue_Far extends LinearOpMode {
     private Blinker control_Hub;
     private DcMotorEx backleftMotor;
     private DcMotorEx backrightMotor;
     private DcMotorEx frontleftMotor;
     private DcMotorEx frontrightMotor;
+
     private DcMotorEx Lift_Motor_1;
+
     private Servo airplane;
     private Servo L_Lift;
     private Servo R_Lift;
@@ -86,13 +88,13 @@ public class Red_Close extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20231213_154156.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_20231214_140622.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/model_20231204_135821.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "Red Cat",
+            "Blue Cat",
     };
 
     /**
@@ -233,6 +235,7 @@ public class Red_Close extends LinearOpMode {
             telemetry.addData(">", "Touch Play to start OpMode");
             telemetryTfod();
             telemetry.update();
+
             airplane.setPosition(0);
 
         }
@@ -245,7 +248,6 @@ public class Red_Close extends LinearOpMode {
                 telemetry.update();
 
                 airplane.setPosition(0);
-
 
                 frontleftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 frontrightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -420,7 +422,6 @@ public class Red_Close extends LinearOpMode {
                     //middle code (Even if undetected)
                 }
 
-
             }   // end for() loop
 
         }   // end method telemetryTfod()
@@ -501,6 +502,7 @@ public class Red_Close extends LinearOpMode {
 
 
 }
+
 
 
 

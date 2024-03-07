@@ -312,7 +312,7 @@ public class Blue_Close extends LinearOpMode {
                     Lift_Motor_1.setPower(1);
 
                     sleep(2000);
-                    left (14, .5);
+                    left (15.5, .5);
                     forward(15, .25);
                     sleep(1000);
                     backwards(5, .25);
@@ -411,7 +411,7 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(2000);
                     forward (28, .5);
-                    right (7, .5);
+                    right (9, .5);
                     forward(10, .15);
                     sleep(1000);
                     backwards(5, .5);
