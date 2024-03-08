@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.opencv_auton;
 
+import static org.firstinspires.ftc.teamcode.Presets.getkAutoScorePositionPLUS;
 import static org.firstinspires.ftc.teamcode.Presets.kAutoScorePosition;
 import static org.firstinspires.ftc.teamcode.Presets.kEndPosition;
 import static org.firstinspires.ftc.teamcode.Presets.kNoTouchPosition;
@@ -291,40 +292,41 @@ public class Blue_Far extends LinearOpMode {
 
                     sleep(1000);
 
-                    forward(8, .5);
+                    forward(6, .5);
 
                     sleep(500);
 
                     backwards(10, .5);
 
-                    sleep(500);
-
-                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() - 2000);
-                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() - 2000);
-                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() - 2000);
-                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() - 2000);
-
-                    frontleftMotor.setPower(.8);
-                    frontrightMotor.setPower(.8);
-                    backleftMotor.setPower(.8);
-                    backrightMotor.setPower(.8);
-
-                    sleep(500);
-
-                    Lift_Motor_1.setTargetPosition(kAutoScorePosition);
+                    Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(7000);
-                    forward (30, .5);
-                    left (12, .5);
-                    forward(12, .25);
+                    sleep(1000);
+
+                    right(30, .5);
+
+
                     sleep(500);
-                    backwards(5, 5);
+
+                    forward(80, .7);
+
+                    left(30, .5);
+
+                    Lift_Motor_1.setTargetPosition(getkAutoScorePositionPLUS);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(1000);
+
+                    left(10, .5);
+
+                    forward(15, .25);
+
+                    backwards(5, .25);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep (6000);
+                    sleep(6000);
 
                     terminateOpModeNow();
                 } else if (pos == 2) {
@@ -332,41 +334,62 @@ public class Blue_Far extends LinearOpMode {
 
                     //extend slide
 
-                    Lift_Motor_1.setTargetPosition(kNoTouchPosition);
+                    Lift_Motor_1.setTargetPosition(kEndPosition);
                     Lift_Motor_1.setPower(1);
 
                     forward(30, .5);
                     sleep (500);
                     backwards(10, .5);
+                    right(14, .5);
+                    forward(33.3, .5);
 
-                    sleep(1000);
+                    Lift_Motor_1.setTargetPosition(kStartingPosition);
+                    Lift_Motor_1.setPower(1);
 
-                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() - 1000);
-                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() - 1000);
-                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() - 1000);
-                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() - 1000);
+                    sleep(1500);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1000);
 
                     frontleftMotor.setPower(.8);
                     frontrightMotor.setPower(.8);
                     backleftMotor.setPower(.8);
                     backrightMotor.setPower(.8);
 
-                    sleep(1000);
+                    Lift_Motor_1.setTargetPosition(kStartingPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(1500);
+
+                    forward(80, .5);
+
+                    left(40, .5);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 100);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 100);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 100);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 100);
+
+                    frontleftMotor.setPower(.8);
+                    frontrightMotor.setPower(.8);
+                    backleftMotor.setPower(.8);
+                    backrightMotor.setPower(.8);
 
                     Lift_Motor_1.setTargetPosition(kAutoScorePosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(6000);
-                    forward (30, .5);
-                    left (2, .5);
-                    forward(9, .25);
                     sleep(1000);
-                    backwards(5,.5);
+
+                    forward(25, .25);
+
+                    backwards(7, .25);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(6000);
+                    sleep(2000);
 
                     terminateOpModeNow();
                 } else if (pos == 3) {
@@ -377,24 +400,27 @@ public class Blue_Far extends LinearOpMode {
 
                     forward (3, .5);
 
-                    right (13.5, .5);
+                    right (14.5, .5);
 
                     forward (23, .5);
 
-                    backwards(20, .5);
+                    backwards(25, .5);
 
-                    right(15, .5);
+                    Lift_Motor_1.setTargetPosition(kStartingPosition);
+                    Lift_Motor_1.setPower(1);
+
+                    sleep(2000);
+
+                    left(81, .7);
 
                     sleep(500);
 
-                    forward(25, .5);
+                    //forward(25, .5);
 
-                    right(4.5, .5);
-
-                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() - 950);
-                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() - 950);
-                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() - 950);
-                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() - 950);
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 1000);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 1000);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 1000);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 1000);
 
                     frontleftMotor.setPower(.8);
                     frontrightMotor.setPower(.8);
@@ -403,19 +429,35 @@ public class Blue_Far extends LinearOpMode {
 
                     sleep(1000);
 
-                    Lift_Motor_1.setTargetPosition(kAutoScorePosition);
+                    right(36, .5);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 150);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 150);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 150);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() + 150);
+
+                    frontleftMotor.setPower(.8);
+                    frontrightMotor.setPower(.8);
+                    backleftMotor.setPower(.8);
+                    backrightMotor.setPower(.8);
+
+                    sleep(200);
+
+                    Lift_Motor_1.setTargetPosition(getkAutoScorePositionPLUS);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(2000);
-                    right (14.5, .5);
-                    forward(16, .25);
                     sleep(1000);
-                    backwards(7, .5);
+
+                    forward(25, 1);
+                    //left (2, .5);
+                    forward(10, .25);
+
+                    backwards(5, .25);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(6000);
+                    sleep(5000);
 
                     terminateOpModeNow();
                 } else {
