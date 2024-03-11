@@ -213,6 +213,7 @@ public class Blue_Close extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+
         //hardware map
         control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
         backleftMotor = hardwareMap.get(DcMotorEx.class, "backleftMotor");
@@ -315,12 +316,15 @@ public class Blue_Close extends LinearOpMode {
                     left (15.5, .5);
                     forward(15, .25);
                     sleep(1000);
-                    backwards(5, .25);
+                    backwards(7, .25);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
 
+                    left(27, .5);
+
                     sleep(6000);
+
 
                     terminateOpModeNow();
                 } else if (pos == 2) {
@@ -349,18 +353,20 @@ public class Blue_Close extends LinearOpMode {
 
                     sleep(1000);
 
-                    Lift_Motor_1.setTargetPosition(kAutoScorePosition);
+                    Lift_Motor_1.setTargetPosition(kAutoScorePosition - 300);
                     Lift_Motor_1.setPower(1);
 
-                    sleep(6000);
+                    sleep(2000);
                     forward (30, .5);
                     right (10, .5);
                     forward(13, .15);
                     sleep(1000);
-                    backwards(5,.25);
+                    backwards(7,.25);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
+
+                    left(30, .5);
 
                     sleep(6000);
 
@@ -414,11 +420,14 @@ public class Blue_Close extends LinearOpMode {
                     right (9, .5);
                     forward(10, .15);
                     sleep(1000);
-                    backwards(5, .5);
+                    backwards(7, .5);
 
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
+
+                    left(37, .5);
+
 
                     sleep (6000);
 

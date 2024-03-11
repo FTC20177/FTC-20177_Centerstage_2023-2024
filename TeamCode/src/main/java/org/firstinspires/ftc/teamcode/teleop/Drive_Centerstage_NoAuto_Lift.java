@@ -96,6 +96,11 @@ public class Drive_Centerstage_NoAuto_Lift extends LinearOpMode {
 
         Lift_Motor_1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        frontleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Wait for the game to start (driver presses PLAY)
         //claw.setPosition(0);
         waitForStart();

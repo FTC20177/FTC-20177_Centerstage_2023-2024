@@ -212,6 +212,7 @@ public class Red_Far extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+
         //hardware map
         control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
         backleftMotor = hardwareMap.get(DcMotorEx.class, "backleftMotor");

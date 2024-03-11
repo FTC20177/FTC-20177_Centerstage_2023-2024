@@ -211,6 +211,7 @@ public class Red_Close extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+
         //hardware map
         control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
         backleftMotor = hardwareMap.get(DcMotorEx.class, "backleftMotor");
@@ -289,11 +290,11 @@ public class Red_Close extends LinearOpMode {
 
                     sleep(1000);
 
-                    forward(8, .5);
+                    forward(9.5, .5);
 
                     sleep(500);
 
-                    backwards(10, .5);
+                    backwards(11, .5);
 
                     sleep(500);
 
@@ -315,7 +316,7 @@ public class Red_Close extends LinearOpMode {
                     sleep(7000);
                     forward (30, .5);
                     left (12, .5);
-                    forward(12, .25);
+                    forward(12, .15);
                     sleep(500);
                     backwards(5, 5);
 
@@ -364,6 +365,8 @@ public class Red_Close extends LinearOpMode {
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
 
+                    right(30, .5);
+
                     sleep(6000);
 
                     terminateOpModeNow();
@@ -375,7 +378,7 @@ public class Red_Close extends LinearOpMode {
 
                     forward (3, .5);
 
-                    right (13.5, .5);
+                    right (14.5, .5);
 
                     forward (23, .5);
 
@@ -389,10 +392,10 @@ public class Red_Close extends LinearOpMode {
 
                     right(4.5, .5);
 
-                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() - 950);
-                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() - 950);
-                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() - 950);
-                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() - 950);
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() - 900);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() - 900);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() - 900);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() - 900);
 
                     frontleftMotor.setPower(.8);
                     frontrightMotor.setPower(.8);
@@ -401,17 +404,32 @@ public class Red_Close extends LinearOpMode {
 
                     sleep(1000);
 
-                    Lift_Motor_1.setTargetPosition(kAutoScorePosition);
+                    Lift_Motor_1.setTargetPosition(kAutoScorePosition - 700);
                     Lift_Motor_1.setPower(1);
 
                     sleep(2000);
-                    right (14.5, .5);
-                    forward(16, .25);
+                    right (12.5, .5);
+
+                    frontleftMotor.setTargetPosition(frontleftMotor.getCurrentPosition() + 100);
+                    frontrightMotor.setTargetPosition(frontrightMotor.getCurrentPosition() + 100);
+                    backleftMotor.setTargetPosition(backleftMotor.getCurrentPosition() + 100);
+                    backrightMotor.setTargetPosition(backrightMotor.getCurrentPosition() - 100);
+
+                    frontleftMotor.setPower(.8);
+                    frontrightMotor.setPower(.8);
+                    backleftMotor.setPower(.8);
+                    backrightMotor.setPower(.8);
+
                     sleep(1000);
+
+                    forward(16, .15);
+                    sleep(200);
                     backwards(7, .5);
 
                     Lift_Motor_1.setTargetPosition(kStartingPosition);
                     Lift_Motor_1.setPower(1);
+
+                    right(30, .5);
 
                     sleep(6000);
 

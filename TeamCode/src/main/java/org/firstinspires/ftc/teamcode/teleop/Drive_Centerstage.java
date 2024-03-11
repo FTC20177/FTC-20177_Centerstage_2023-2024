@@ -125,6 +125,12 @@ public class Drive_Centerstage extends LinearOpMode {
 
         //Lift_Motor_1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        frontleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
         airplane.setPosition(0);
 
         rF_Green.setMode(DigitalChannel.Mode.OUTPUT);
@@ -152,6 +158,11 @@ public class Drive_Centerstage extends LinearOpMode {
             telemetry.addData("RF Motor", frontrightMotor.getCurrentPosition());
             telemetry.addData("LR Motor", backleftMotor.getCurrentPosition());
             telemetry.addData("RR Motor", backrightMotor.getCurrentPosition());
+
+            frontleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            frontrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            backleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            backrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
             telemetry.update();
@@ -240,13 +251,22 @@ public class Drive_Centerstage extends LinearOpMode {
             }else{
                 airplane.setPosition(.100);
             }
+
             if (gamepad1.a){
                 L_Lift.setPosition(.45);
-                R_Lift.setPosition(.0);
+                R_Lift.setPosition(0);
             }else if (gamepad1.b){
-                L_Lift.setPosition(.0);
+                L_Lift.setPosition(0);
                 R_Lift.setPosition(.45);
             }
+
+            if (isStopRequested()){
+                frontleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                frontrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                backleftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                backrightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                sleep(1000);
+        }
 
         }
     }
